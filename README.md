@@ -64,21 +64,29 @@ The idea is straightforward, but there are a few complications that need to be m
 Given the approach and requirements above, the PS algorithm works in the following way:
 
 1. ##### Compute task time surprise
-   1.  Load the historical task completion times for all workers, for each task type:
-      1. Generate a `lognorm` model of historical task completion times
-      2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` metric
-   2. Load the analysis task completion times for all workers, for each worker, for each task type:
+
+    1.  Load the historical task completion times for all workers, for each task type:
+
+        1. Generate a `lognorm` model of historical task completion times
+
+        2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` metric
+
+    2. Load the analysis task completion times for all workers, for each worker, for each task type:
       
-      1. Compute the sum and mean surprise (in bits) based on the historical task type model and expected error of that model.  
+        1. Compute the sum and mean surprise (in bits) based on the historical task type model and expected error of that model.  
          
-            High probability + low error ⇒ low surprise
-            Low probability + low error ⇒ high surprise
-            Low probability + high error ⇒ low surprise
+           High probability + low error ⇒ low surprise
+
+           Low probability + low error ⇒ high surprise
+
+           Low probability + high error ⇒ low surprise
    
 2. ##### Project surprise metrics down to a ranking
 
    1. Project the worker surprise metrics down to the most informative axes via a `PCA`
+
    2. Compute a `multivariate_normal` distribution / mean in the projected space, rank workers by distance from mean
+
       1. Also compute the `abs` individual contribution of each task-type surprise to the distance from mean for each worker to rank task-types by abnormality per-worker
 
 #### Example Use Case
