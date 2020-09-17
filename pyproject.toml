@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "perf_tools"
+version = "0.1.0"
+description = ""
+authors = ["Sébastien Eustace <sebastien@eustace.io>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+plac = "^1.1"
+geojson = "^2.5.0"
+shapely = "^1.7.0"
+folium = "^0.10.1"
+scikit-learn = "^0.22.2"
+mlrose = "^1.3.0"
+jsonpickle = "^1.3"
+aiohttp-index = "^0.1"
+matplotlib = "^3.2.1"
+colorhash = "^1.0.2"
+jsonpath-ng = "^1.5.1"
+
+[tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
+pytest = "^5.3"
+flake8 = "^3.7"
+pytest-asyncio = "^0.10.0"
