@@ -1,4 +1,5 @@
-# task-perf-tools
+# Community Health Task Investigator
+
 ## Focusing field worker management with data
 
 Organizations wanting to monitor or improve lives in places with limited infrastructure face the challenge of managing teams of field workers.  Examples include research teams monitoring pre- and post-natal health in developing countries, international orgs running malaria control programs, or NGOs administering vaccines to remote regions.  Teams of *field workers* are assigned and complete tasks for the organization directed by *field managers*, and the overall success of this *field team* can determine the success of a project.
