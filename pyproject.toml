@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "chti"
+version = "0.1.0"
+description = ""
+authors = ["Ona <dev@ona.io>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+plac = "^1.1"
+scikit-learn = "^0.22.2"
+matplotlib = "^3.2.1"
+colorhash = "^1.0.2"
+pandas = "^1.1.2"
+dask = { version = "^2.9", extras = ["dataframe"]}
+numpy = "^1.19.2"
+toolz = "^0.10.0"
+
+[tool.poetry.dev-dependencies]
+black = { version = "*", allow-prereleases = true }
+pytest = "^5.3"
+flake8 = "^3.7"
