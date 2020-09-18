@@ -6,14 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
       - image: circleci/python:3.7.7
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
@@ -21,14 +14,6 @@ jobs:
 
       - setup_remote_docker:
           docker_layer_caching: true
-
-      #- run:
-      #    name: Update apt
-      #    command: sudo apt-get update
-
-      #- run:
-      #  name: Install Docker client
-      #  command: sudo apt-get install -y docker.io docker-compose
 
       - checkout
 
@@ -54,12 +39,10 @@ jobs:
           paths:
             - ./venv
 
-      # run tests!
+      # run tests
       - run:
           name: run tests
           command: poetry run pytest
-          environment:
-            REMOTE_DOCKER_SSH_HOST: remote-docker
 
       - store_test_results:
           path: test-results

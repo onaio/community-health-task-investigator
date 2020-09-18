@@ -3,7 +3,7 @@ import numpy
 import random
 import io
 import base64
-from perf_tools.principal_surprise import *
+from chti.abnormal_task_perf_analyzer import *
 
 from scipy.stats import lognorm
 
