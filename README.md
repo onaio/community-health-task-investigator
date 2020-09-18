@@ -68,9 +68,9 @@ Given the approach and requirements above, the Principal Surprise (PS) algorithm
 
     1.  Load the historical task completion times for all workers, for each task type:
 
-        1. Generate a `lognorm` (log normal) model of historical task completion times
+        1. Generate a `lognorm` ([log-normal](https://en.wikipedia.org/wiki/Log-normal_distribution)) model of historical task completion times
 
-        2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` (Kolmogorov-Smirnov) metric
+        2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` ([Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test)) metric
 
     2. Load the analysis task completion times for all workers, for each worker, for each task type:
       
@@ -84,7 +84,7 @@ Given the approach and requirements above, the Principal Surprise (PS) algorithm
    
 2. ##### Project surprise metrics down to a ranking
 
-   1. Project the worker surprise metrics down to the most informative axes via a `PCA` (principal components analysis)
+   1. Project the worker surprise metrics down to the most informative axes via a `PCA` ([principal components analysis](https://en.wikipedia.org/wiki/Principal_component_analysis))
 
    2. Compute a `multivariate_normal` distribution / mean in the projected space, rank workers by distance from mean
 
