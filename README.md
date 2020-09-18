@@ -3,13 +3,13 @@
 
 Organizations wanting to monitor or improve lives in places with limited infrastructure face the challenge of managing teams of field workers.  Examples include research teams monitoring pre- and post-natal health in developing countries, international orgs running malaria control programs, or NGOs administering vaccines to remote regions.  Teams of *field workers* are assigned and complete tasks for the organization directed by *field managers*, and the overall success of this *field team* can determine the success of a project.
 
-Managing a field team in a developing country well, and identifying problems as early as possible, is challenging.  Often workers do many different kinds of tasks and there are few established baselines for performance.  Our experiment here is to see if a data-driven approach can help - instead of starting from external performance targets, can we validate the performance of workers against other workers doing similar tasks and prioritize valuable field manager time?
+Managing a field team well, and identifying problems as early as possible, is challenging.  Often workers do many different kinds of tasks and there are few established baselines for performance.  Our experiment here is to see if a data-driven approach can help - instead of starting from external performance targets, can we validate the performance of workers against other workers doing similar tasks and prioritize valuable field manager time?
 
 ## Toolset
 
 ### Worker Task-Time Abnormality
 
-To compare a worker's performance at a task to the overall population of workers, a minimal starting point is to compare the completion times of tasks the worker was assigned to the overall distribution of completion times from some historical or hopefully-representative data set.  Nearly all systems record this information and it is easy to compare.
+To compare a worker's performance at a task to the overall population of workers, a minimal starting point is to compare the completion times of tasks the worker was assigned against the overall distribution of completion times from some historical or hopefully-representative data set.  Nearly all systems record this information and it is easy to compare.
 
 The output for a field manager, based on this input, is a listing of workers ranked by overall abnormality across all their tasks of different types (with accompanying task-time graphs, visualizations, etc.).  This allows the field manager to spend their time identifying problems and learning from high-performers and spend less time with workers who are "unsurprising" in their productivity.
 
@@ -61,15 +61,15 @@ The idea is straightforward, but there are a few complications that need to be m
 
 #### High-level overview
 
-Given the approach and requirements above, the PS algorithm works in the following way:
+Given the approach and requirements above, the Principal Surprise (PS) algorithm works in the following way:
 
 1. ##### Compute task time surprise
 
     1.  Load the historical task completion times for all workers, for each task type:
 
-        1. Generate a `lognorm` model of historical task completion times
+        1. Generate a `lognorm` (log normal) model of historical task completion times
 
-        2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` metric
+        2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` (Kolmogorov-Smirnov) metric
 
     2. Load the analysis task completion times for all workers, for each worker, for each task type:
       
@@ -83,7 +83,7 @@ Given the approach and requirements above, the PS algorithm works in the followi
    
 2. ##### Project surprise metrics down to a ranking
 
-   1. Project the worker surprise metrics down to the most informative axes via a `PCA`
+   1. Project the worker surprise metrics down to the most informative axes via a `PCA` (principal components analysis)
 
    2. Compute a `multivariate_normal` distribution / mean in the projected space, rank workers by distance from mean
 
