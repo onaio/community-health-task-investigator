@@ -75,15 +75,15 @@ Given the approach and requirements above, the Principal Surprise (PS) algorithm
         2. Compute an `expected_(max_)err_pct` (percent) via resampling with a `kstest` ([Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test)) metric
 
     2. Load the analysis task completion times for all workers, for each worker, for each task type:
-      
-        1. Compute the sum and mean surprise (in bits) based on the historical task type model and expected error of that model.  
-         
+
+        1. Compute the sum and mean surprise (in bits) based on the historical task type model and expected error of that model.
+
            High probability + low error ⇒ low surprise
 
            Low probability + low error ⇒ high surprise
 
            Low probability + high error ⇒ low surprise
-   
+
 2. ##### Project surprise metrics down to a ranking
 
    1. Project the worker surprise metrics down to the most informative axes via a `PCA` ([principal components analysis](https://en.wikipedia.org/wiki/Principal_component_analysis))
@@ -109,4 +109,3 @@ As is, the PS algorithm seems to give interesting results, but there are a numbe
   Ideally this could also result in a virtuous cycle where external targets that are initially set inaccurately can be refined over time by identifying targets that are *unsurprisingly* not met.
 
 * **Integrating field manager feedback into the rankings** - a ranking system based on task metadata will not be able to fully capture factors not in that task data.  For example, some worker tasks may be more experimental and expected to vary more in completion time, but should still be monitored for outliers.  By allowing field managers to mark particular abnormal workers as uninteresting, the next worker ranking could take this into account by weighting the uninteresting worker's surprising task types less heavily via some adaptive algorithm.
-

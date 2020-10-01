@@ -16,6 +16,9 @@ numpy = "^1.19.2"
 toolz = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
-black = { version = "*", allow-prereleases = true }
 pytest = "^5.3"
-flake8 = "^3.7"
+pre-commit = "^2.7.1"
+
+[build-system]
+requires = ["poetry >= 1.0.5"]
+build-backend = "poetry.masonry.api"

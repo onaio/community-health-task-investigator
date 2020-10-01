@@ -39,7 +39,12 @@ jobs:
           paths:
             - ./venv
 
-      # run tests
+      # run autostyle!
+      - run:
+          name: run autostyle
+          command: poetry run pre-commit run --all-files --show-diff-on-failure
+
+      # run tests!
       - run:
           name: run tests
           command: poetry run pytest

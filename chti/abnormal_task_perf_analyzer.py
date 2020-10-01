@@ -1,22 +1,15 @@
 import math
-import pandas
-import numpy
+from collections import namedtuple
+
+import colorhash
 import dask
 import dask.dataframe
-
-from scipy.stats import lognorm
-from scipy.stats import kstest
-
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.impute import SimpleImputer
-
-from scipy.stats import multivariate_normal
-
+import numpy
+import pandas
 from matplotlib import pyplot
-import colorhash
-
-from collections import namedtuple
+from scipy.stats import kstest, lognorm, multivariate_normal
+from sklearn.decomposition import PCA
+from sklearn.impute import SimpleImputer
 
 
 class AbnormalTaskPerfAnalyzer:
@@ -136,7 +129,11 @@ class AbnormalTaskPerfAnalyzer:
 
         # ... and sort our groups by how weird they look in the lower-d space
         self.normal_df = pandas.DataFrame(
-            {"dist_from_mean": dist_from_mean, "logpdf_bucket": logpdf_bucket, "total_surprise": total_surprise},
+            {
+                "dist_from_mean": dist_from_mean,
+                "logpdf_bucket": logpdf_bucket,
+                "total_surprise": total_surprise,
+            },
             index=self.surprise_df.index,
         )
         self.normal_df.sort_values(
@@ -415,7 +412,7 @@ def build_pca_df(features_df, *, n_components="mle", fig=None):
             title = fig
             fig = pyplot.figure()
         if isinstance(fig, bool):
-            title = f"PCA Values"
+            title = "PCA Values"
             fig = pyplot.figure()
 
         axs = fig.add_subplot(1, 1, 1)
@@ -485,7 +482,7 @@ def build_mv_normality_model(metrics_df, *, outlier_pct=0.0, fig=None, fig_pct_c
             title = fig
             fig = pyplot.figure()
         if isinstance(fig, bool):
-            title = f"Normality Model"
+            title = "Normality Model"
             fig = pyplot.figure()
 
         axs = fig.add_subplot(1, 1, 1)

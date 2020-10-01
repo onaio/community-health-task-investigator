@@ -1,11 +1,12 @@
-import pandas
-import numpy
-import random
-import io
 import base64
-from chti.abnormal_task_perf_analyzer import *
+import io
+import random
 
+import numpy
+import pandas
 from scipy.stats import lognorm
+
+from chti.abnormal_task_perf_analyzer import AbnormalTaskPerfAnalyzer
 
 
 def gen_rows(row_templates, k=1, weights=None, random_seed=1):
@@ -97,7 +98,7 @@ def test_basic():
     )
     assert (
         surprise_df.loc["bob"][(drive_m.group_def, "mean")]
-        > surprise_df.loc["carl"][(fly_m.group_def,"mean")]
+        > surprise_df.loc["carl"][(fly_m.group_def, "mean")]
     )
 
     # Make sure that the 1.0 data point gets weirder as the models have higher means and more data
@@ -117,8 +118,6 @@ def test_basic():
     metrics_df = analysis.metrics_df
     print(metrics_df)
 
-    normal_model = analysis.normal_model
-
     # Since we have only three workers, we'll always have equal abnormality based on normal
     # distribution so the ordering will only depend on total surprise.  The max total surprise is
     # carl's bike performance and the min total surprise is bob's fly performance
@@ -133,9 +132,7 @@ def test_minimal():
     # max surprise vs abnormality
     #
 
-    row_templates = [
-        [["2019-01-01"], ["carl"], ["bike"], lognorm(s=0.5, loc=1, scale=1000)],
-    ]
+    row_templates = [[["2019-01-01"], ["carl"], ["bike"], lognorm(s=0.5, loc=1, scale=1000)]]
 
     # We've got one data point per person, not enough to give a normal distribution
     test_rows = [["2019-02-01", "alice", "bike", 1500.0], ["2019-02-01", "bob", "bike", 1.0]]
@@ -165,7 +162,8 @@ def test_minimal():
     assert result_df.index[0] == "alice"
     assert result_df.index[-1] == "bob"
 
-    assert result_df['dist_from_mean'].iloc[0] > 0.7 and result_df['dist_from_mean'].iloc[0] < 0.8
+    assert result_df["dist_from_mean"].iloc[0] > 0.7 and result_df["dist_from_mean"].iloc[0] < 0.8
+
 
 def test_figures():
 
