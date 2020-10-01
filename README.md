@@ -1,3 +1,7 @@
+---
+typora-copy-images-to: docs/images
+---
+
 [![community-health-task-investigator](https://circleci.com/gh/onaio/community-health-task-investigator.svg?style=svg)](https://circleci.com/gh/onaio/community-health-task-investigator)
 
 # Community Health Task Investigator
@@ -52,6 +56,7 @@ The **output** for the field manager is then:
   [(worker_id, worker_metric_0_task_0, ..., worker_metric_n_task_m), ...]
   ```
 
+
 ### Ona "Principal Surprise" Algorithm
 
 One basic approach to this worker abnormality problem is to compute the information gain (surprise) from a worker's task completion times based on historical models of task completion times.  Then, with a measure of surprise for each task type, we can determine the principal task types that differentiate workers and compute a weighted sum of the surprises as the overall abnormality.
@@ -92,9 +97,89 @@ Given the approach and requirements above, the Principal Surprise (PS) algorithm
 
       1. Also compute the `abs` individual contribution of each task-type surprise to the distance from mean for each worker to rank task-types by abnormality per-worker
 
-#### Example Use Case
+### Real-World Data
 
-See `examples/transport.csv`
+As part of an Ona partner project, a set of field worker task data was analyzed with many (dozens) of tasks types.  A sample is here:
+
+![Task 1 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_1.png)
+
+![Task 2 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_2.png)
+
+![Task 3 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_3.png)
+
+Most of the task time data, when there was enough of it, fit a `lognormal` curve well.  When there was less data, the model was correspondingly less accurate (though generally the task-time peak and long tail remained).
+
+For a given time period, for example a week, the workers' task time distribution on particular tasks was compared to this historical distribution.  Here's an example task-completion histogram for an **unsurprising** worker that mostly matched the historical performance on most tasks:
+
+![Worker Task Distribution Normal](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_dist_normal.png)
+
+... and here's an example of a task-completion histogram for a **surprising** worker who completed tasks at abnormal (usually much longer) times:
+
+![Worker Task Distribution Abnormal](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_dist_abnormal.png)
+
+The dotted curve in these charts is a plot of the historical task-completion distribution, and the bars are a histogram of the task completions of the worker.  The width of the histogram bars themselves are proportional to the tightness of fit of the historical model to the historical data - intuitively, **narrow** bars cover a small portion of the distribution and therefore convey a lot of surprise, and **wide** bars cover a larger portion of the distribution and therefore convey less surprise.  Here, the surprising worker completes many tasks very far outside the normal range (even accounting for outliers).
+
+The worker charts represent a matrix of surprise values:
+
+<table>
+    <thead>
+        <tr>
+            <th>Worker</th>
+            <th colspan=10>Task Surprise</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>0.93</td>
+            <td>0.05</td>
+            <td></td>
+            <td>1.50</td>
+            <td>0.08</td>
+            <td>0.03</td>
+            <td>1.76</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>8.22</td>
+            <td>0.04</td>
+            <td></td>
+            <td></td>
+            <td>9.08</td>
+            <td>0.05</td>
+            <td></td>
+            <td>12.58</td>
+            <td>0.11</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+These raw surprise values for all workers, for all tasks can be projected down into the axes that retain the most information, and an ordering generated from the result:
+
+![Worker Normality Model](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_pca.png)
+
+In general, real data anomalies were strongly represented in the results, and, though much more validation work is needed, seem to be a good starting point for management decisions.
+
+#### Synthetic Data
+
+See the README at `examples/ps`
 
 #### Extensions / TODO
 
