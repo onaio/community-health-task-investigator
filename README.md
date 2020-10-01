@@ -101,21 +101,21 @@ Given the approach and requirements above, the Principal Surprise (PS) algorithm
 
 As part of an Ona partner project, a set of field worker task data was analyzed with many (dozens) of tasks types.  A sample is here:
 
-![Task 1 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_1.png)
+![Task 1 Distribution](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/task_time_dist_1.png)
 
-![Task 2 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_2.png)
+![Task 2 Distribution](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/task_time_dist_2.png)
 
-![Task 3 Distribution](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/task_time_dist_3.png)
+![Task 3 Distribution](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/task_time_dist_3.png)
 
 Most of the task time data, when there was enough of it, fit a `lognormal` curve well.  When there was less data, the model was correspondingly less accurate (though generally the task-time peak and long tail remained).
 
 For a given time period, for example a week, the workers' task time distribution on particular tasks was compared to this historical distribution.  Here's an example task-completion histogram for an **unsurprising** worker that mostly matched the historical performance on most tasks:
 
-![Worker Task Distribution Normal](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_dist_normal.png)
+![Worker Task Distribution Normal](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/worker_task_time_dist_normal.png)
 
 ... and here's an example of a task-completion histogram for a **surprising** worker who completed tasks at abnormal (usually much longer) times:
 
-![Worker Task Distribution Abnormal](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_dist_abnormal.png)
+![Worker Task Distribution Abnormal](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/worker_task_time_dist_abnormal.png)
 
 The dotted curve in these charts is a plot of the historical task-completion distribution, and the bars are a histogram of the task completions of the worker.  The width of the histogram bars themselves are proportional to the tightness of fit of the historical model to the historical data - intuitively, **narrow** bars cover a small portion of the distribution and therefore convey a lot of surprise, and **wide** bars cover a larger portion of the distribution and therefore convey less surprise.  Here, the surprising worker completes many tasks very far outside the normal range (even accounting for outliers).
 
@@ -173,9 +173,9 @@ The worker charts represent a matrix of surprise values:
 
 These raw surprise values for all workers, for all tasks can be projected down into the axes that retain the most information, and an ordering generated from the result:
 
-![Worker Normality Model](/home/gstuder/Workspaces/Ona/community-health-task-investigator/docs/images/worker_task_time_pca.png)
+![Worker Normality Model](https://raw.githubusercontent.com/onaio/community-health-task-investigator/master/docs/images/worker_task_time_pca.png)
 
-In general, real data anomalies were strongly represented in the results, and, though much more validation work is needed, seem to be a good starting point for management decisions.
+In general, real data anomalies were strongly represented in the results, and, though much more validation work is needed, the abnormal workers and tasks identified seemed good candidates for deeper field manager checkups.
 
 #### Synthetic Data
 
