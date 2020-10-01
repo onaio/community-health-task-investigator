@@ -1,7 +1,3 @@
----
-typora-copy-images-to: docs/images
----
-
 [![community-health-task-investigator](https://circleci.com/gh/onaio/community-health-task-investigator.svg?style=svg)](https://circleci.com/gh/onaio/community-health-task-investigator)
 
 # Community Health Task Investigator
