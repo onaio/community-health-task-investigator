@@ -540,11 +540,27 @@ def build_mv_normality_model(metrics_df, *, outlier_pct=0.0, fig=None, fig_pct_c
     return normal_model
 
 
+def impute_zero_sparse_rows(arr):
+    def impute_zero_sparse_row(row):
+        if numpy.sum(numpy.nan_to_num(row)) > 0:
+            return row
+        return row + 1.0
+
+    return numpy.apply_along_axis(impute_zero_sparse_row, 1, arr)
+
+
 def build_feature_abnormality_df(features_df, metrics_df, normal_model):
 
-    dists_from_mean = numpy.abs(metrics_df.values - normal_model.mean)
-    component_abnormality_contribution = numpy.matmul(
-        dists_from_mean, numpy.abs(metrics_df.pca.components_)
+    abnormal_vs = metrics_df.values - normal_model.mean
+    feature_vs = features_df - metrics_df.pca.mean_
+
+    # Compute the total proportion of abnormality distance that each feature vector component is responsible for
+    feature_sensitivity = numpy.matmul(
+        numpy.abs(abnormal_vs), numpy.abs(metrics_df.pca.components_)
+    )
+
+    feature_contributions = numpy.multiply(
+        feature_sensitivity, numpy.nan_to_num(impute_zero_sparse_rows(abs(feature_vs)))
     )
 
     col_index = pandas.MultiIndex.from_tuples(
@@ -553,7 +569,7 @@ def build_feature_abnormality_df(features_df, metrics_df, normal_model):
         names=features_df.columns.names + ("meta",),
     )
 
-    contribution_df = pandas.DataFrame(component_abnormality_contribution, index=metrics_df.index)
+    contribution_df = pandas.DataFrame(feature_contributions, index=metrics_df.index)
 
     abnormal_df = pandas.concat([features_df, contribution_df], axis=1)
 

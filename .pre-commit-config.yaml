@@ -26,4 +26,4 @@ repos:
     -   id: flake8
         args:
         - "--exclude=.venv,__pycache__,.ipynb"
-        - "--ignore=E501,E203,E722,E731,W503"
+        - "--ignore=E501,E203,E722,E731,W503,W504"
