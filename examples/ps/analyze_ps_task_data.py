@@ -1,18 +1,21 @@
 import os
-import pandas
+
 import dask
 import dask.dataframe
+import pandas
 
 from chti.abnormal_task_perf_analyzer import AbnormalTaskPerfAnalyzer
+
 
 def ps_task_2020_jan_report(
     hist_filename=os.path.join(os.path.dirname(__file__), "tasks_2019.csv"),
     latest_filename=os.path.join(os.path.dirname(__file__), "tasks_2020_jan.csv"),
-    results_dir=os.path.join(os.path.dirname(__file__), "2020_jan_report")):
-    
+    results_dir=os.path.join(os.path.dirname(__file__), "2020_jan_report"),
+):
+
     task_ddf = dask.dataframe.read_csv([hist_filename, latest_filename])
     task_df = pandas.DataFrame(task_ddf.compute())
-    task_df.set_index('id', inplace=True)
+    task_df.set_index("id", inplace=True)
 
     # Do the analysis
     analysis = AbnormalTaskPerfAnalyzer(
@@ -23,17 +26,20 @@ def ps_task_2020_jan_report(
         worker_group_cols=["worker"],
         task_group_cols=["activity"],
         elapsed_time_col="secs",
-        with_figures=True)
-        
+        with_figures=True,
+    )
+
     result_df = analysis.analyze()
-    result_df.sort_values(["logpdf_bucket", "total_surprise"], inplace=True, ascending=[True, False])
+    result_df.sort_values(
+        ["logpdf_bucket", "total_surprise"], inplace=True, ascending=[True, False]
+    )
 
     pandas.set_option("display.max_rows", 1000, "display.max_columns", 1000)
     print(result_df)
 
     os.makedirs(results_dir, exist_ok=True)
 
-    result_df.to_csv(os.path.join(results_dir, f"results_2020_jan.csv"))
+    result_df.to_csv(os.path.join(results_dir, "results_2020_jan.csv"))
 
     for name, figures in analysis.figures.items():
         for fig_type, figure in dict(figures._asdict()).items():
@@ -42,11 +48,12 @@ def ps_task_2020_jan_report(
 
 def ps_task_2019_dec_report(
     hist_filename=os.path.join(os.path.dirname(__file__), "tasks_2019.csv"),
-    results_dir=os.path.join(os.path.dirname(__file__), "2019_dec_report")):
-    
+    results_dir=os.path.join(os.path.dirname(__file__), "2019_dec_report"),
+):
+
     task_ddf = dask.dataframe.read_csv([hist_filename])
     task_df = pandas.DataFrame(task_ddf.compute())
-    task_df.set_index('id', inplace=True)
+    task_df.set_index("id", inplace=True)
 
     pandas.set_option("display.max_rows", 1000, "display.max_columns", 1000)
     print(task_df)
@@ -60,17 +67,20 @@ def ps_task_2019_dec_report(
         worker_group_cols=["worker"],
         task_group_cols=["activity"],
         elapsed_time_col="secs",
-        with_figures=True)
-        
+        with_figures=True,
+    )
+
     result_df = analysis.analyze()
-    result_df.sort_values(["logpdf_bucket", "total_surprise"], inplace=True, ascending=[True, False])
+    result_df.sort_values(
+        ["logpdf_bucket", "total_surprise"], inplace=True, ascending=[True, False]
+    )
 
     pandas.set_option("display.max_rows", 1000, "display.max_columns", 1000)
     print(result_df)
 
     os.makedirs(results_dir, exist_ok=True)
-    
-    result_df.to_csv(os.path.join(results_dir, f"results_2019_dec.csv"))
+
+    result_df.to_csv(os.path.join(results_dir, "results_2019_dec.csv"))
 
     for name, figures in analysis.figures.items():
         for fig_type, figure in dict(figures._asdict()).items():
@@ -80,6 +90,7 @@ def ps_task_2019_dec_report(
 def main():
     ps_task_2019_dec_report()
     ps_task_2020_jan_report()
+
 
 if __name__ == "__main__":
     main()

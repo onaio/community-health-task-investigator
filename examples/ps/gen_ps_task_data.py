@@ -68,17 +68,34 @@ def gen_ps_task_2020_jan_data(
     # Add abnormal task completions
     abnormal_rows = (
         # Very abnormal
-        [["2020-01-02", "felix", "register_person", 100],
-         ["2020-01-03", "felix", "register person", 100],
-         ["2020-01-04", "felix", "register person", 100]] * 10 +
+        (
+            [
+                ["2020-01-02", "felix", "register_person", 100],
+                ["2020-01-03", "felix", "register person", 100],
+                ["2020-01-04", "felix", "register person", 100],
+            ]
+            * 10
+        )
+        +
         # Moderately abnormal
-        [["2020-01-05", "dan", "survey group", 1000],
-         ["2020-01-06", "dan", "survey group", 1000],
-         ["2020-01-07", "dan", "survey group", 1000]] * 10 +
+        (
+            [
+                ["2020-01-05", "dan", "survey group", 1000],
+                ["2020-01-06", "dan", "survey group", 1000],
+                ["2020-01-07", "dan", "survey group", 1000],
+            ]
+            * 10
+        )
+        +
         # Somewhat abnormal
-        [["2020-01-08", "bob", "vacc community", 10000],
-         ["2020-01-09", "bob", "vacc community", 10000],
-         ["2020-01-10", "bob", "vacc community", 10000]] * 10
+        (
+            [
+                ["2020-01-08", "bob", "vacc community", 10000],
+                ["2020-01-09", "bob", "vacc community", 10000],
+                ["2020-01-10", "bob", "vacc community", 10000],
+            ]
+            * 10
+        )
     )
 
     task_df = _gen_distributed_ps_task_df(["2020-01-01"], num_rows, random_seed, abnormal_rows)
