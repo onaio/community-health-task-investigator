@@ -1,6 +1,6 @@
 [![community-health-task-investigator](https://circleci.com/gh/onaio/community-health-task-investigator.svg?style=svg)](https://circleci.com/gh/onaio/community-health-task-investigator)
 
-# Community Health Task Investigator
+# [Community Health Task Investigator](https://github.com/onaio/community-health-task-investigator)
 
 ## Focusing field worker management with data
 
